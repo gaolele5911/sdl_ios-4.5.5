@@ -220,6 +220,25 @@ NS_ASSUME_NONNULL_BEGIN
     return (status == noErr);
 }
 
+- (BOOL)sendVideoLockScreenData:(NSData *)imageData {
+    
+    if (!self.videoSessionConnected) {
+        return NO;
+    }
+    
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+        @autoreleasepool {
+            if (self.videoSessionEncrypted) {
+                [self.protocol sendEncryptedRawData:imageData onService:SDLServiceType_Video];
+            } else {
+                [self.protocol sendRawData:imageData withServiceType:SDLServiceType_Video];
+            }
+        }
+    });
+    
+    return YES;
+}
+
 - (BOOL)sendAudioData:(NSData *)pcmAudioData {
     if (!self.audioSessionConnected) {
         return NO;

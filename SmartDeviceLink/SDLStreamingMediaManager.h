@@ -130,6 +130,15 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer;
 
 /**
+ *  This method receives video data and will attempt to send that data across to the head unit for immediate playback
+ *
+ *  @param imageBuffer CVImageBufferRef Encoded into kCMVideoCodecType_H264 data
+ *
+ *  @return Whether or not the data was successfully sent.
+ */
+- (BOOL)sendVideoLockScreenData:(NSData *)imageBuffer;
+
+/**
  *  This method will attempt to start an audio session
  *
  *  @param startBlock A block that will be called with the result of attempting to start an audio session
